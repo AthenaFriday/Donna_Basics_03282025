@@ -1,5 +1,7 @@
 package com.example.project1.exercises
 
+import java.util.Scanner
+
 /*
 * Banks
 * - list of banks -
@@ -19,11 +21,35 @@ package com.example.project1.exercises
 * */
 
 fun main() {
-    data class  Card( val companyName : String,var  expirationMonth: Int, var expirationYear: Int )
+    data class Card(val companyName: String, var expiration: String)
+
+    val reader = Scanner(System.`in`)
+    print("Enter a Card Number: ")
 
 
-    fun Card.validate(cardNum: String) =
-        if(cardNum.subSequence(0,3)==companyName.subSequence(5,8) && cardNum.subSequence(15,16)==expirationMonth.toString() && cardNum.subSequence(17,18)==expirationYear.toString()
-        ){ print("valid")}
-        else {print("invalid")}
+    var cardInput: String = reader.nextLine()
+    // sanatize number
+    var cardNumber = cardInput.filter{it.isDigit()}
+    if (cardNumber.length ==16) {
+
+        print("enter the expiration date: ")
+    } else {
+        print(" Invalid card number, please try again.")
+
+    }
+    val reader1 = Scanner(System.`in`)
+    cardInput= reader1.nextLine()
+    var exDate = cardInput.filter{it.isDigit()}
+
+    fun Card.validate(cardNum: String) {
+        if (cardNum.take(4) == this.companyName.takeLast(4) && cardNum.takeLast(4) == this.expiration) {
+            print("Card number ending in ${cardNum.takeLast(4)} is valid")
+        } else {
+            print("Card number ending in ${cardNum.takeLast(4)} is invalid")
+        }
+    }
+ val card = Card("ACME 1121",  exDate)
+
+    card.validate(cardNumber)
+
 }
