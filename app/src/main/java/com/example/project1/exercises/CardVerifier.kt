@@ -24,32 +24,30 @@ fun main() {
     data class Card(val companyName: String, var expiration: String)
 
     val reader = Scanner(System.`in`)
-    print("Enter a Card Number: ")
+    print("Please enter a valid card number: ")
 
 
-    var cardInput: String = reader.nextLine()
-    // sanatize number
-    var cardNumber = cardInput.filter{it.isDigit()}
-    if (cardNumber.length ==16) {
+    var cardInput: String = reader.nextLine().filter{it.isDigit()}
 
-        print("enter the expiration date: ")
-    } else {
-        print(" Invalid card number, please try again.")
+    while (cardInput.length != 16){
+       println("Card number: must be exactly 16 digits")
+        print("Please enter a valid card number: ")
+        cardInput = reader.nextLine().filter{it.isDigit()} ?: "0"
 
     }
-    val reader1 = Scanner(System.`in`)
-    cardInput= reader1.nextLine()
-    var exDate = cardInput.filter{it.isDigit()}
 
-    fun Card.validate(cardNum: String) {
-        if (cardNum.take(4) == this.companyName.takeLast(4) && cardNum.takeLast(4) == this.expiration) {
+    print("Please enter the expiration date: ")
+    var exDate = reader.nextLine().filter{it.isDigit()}
+
+    fun Card.validate(cardNum: String, expirationDate: String) {
+        if (cardNum.take(4) == this.companyName.takeLast(4) && cardNum.takeLast(4) == expirationDate) {
             print("Card number ending in ${cardNum.takeLast(4)} is valid")
         } else {
             print("Card number ending in ${cardNum.takeLast(4)} is invalid")
         }
     }
- val card = Card("ACME 1121",  exDate)
+    val card = Card("ACME 1121",  "1027")
 
-    card.validate(cardNumber)
-
+    card.validate(cardInput, exDate)
+    reader.close()
 }
